@@ -29,7 +29,7 @@ add_team.add_team_to_repository(org, repo, team_name)
 # Get files from starter repository for the newly created repository
 source_repo_name = '<source_repository_name>'
 source_repo = org.get_repo(name=source_repo_name)
-files_to_download = ['.eslintrc.json', '.env.example', '.prettierrc', 'README.md', '.gitignore']
+files_to_download = ['.env.example', 'README.md', '.gitignore'] # example of files to get from starter repository
 template_directory = 'template'
 get_template_files.download_files_from_github_repo(source_repo, files_to_download, template_directory)
 
