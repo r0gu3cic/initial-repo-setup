@@ -1,0 +1,45 @@
+name: dev pr check
+run-name: 🚀 ${{ github.event.head_commit.message }} pr check triggered by ${{ github.actor }} 🚀
+on:
+    pull_request:
+        types:
+            - opened
+            - synchronize
+        branches:
+            - develop
+jobs:
+    pr-check-stage:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+        steps:
+            - run: echo "🔎 Workflow is checking out code 🔎"
+            - name: Get the code
+              uses: actions/checkout@v3
+            - name: create .env file
+              uses: SpicyPizza/create-envfile@v1.3
+              with:
+                envkey_SOME_API_KEY: "123456abcdef"
+            - run: cat .env
+            - run: echo "🔧 Preparing run environment 🔧"
+            # - name: Set node version
+            #   uses: actions/setup-node@v3
+            #   with:
+            #       node-version: 20.2.0
+            # - run: echo "💻 Installing dependencies 💻"
+            # - run: npm install
+            # - run: echo "💻 Running build test 💻"
+            # - run: npm run build
+            # - run: echo "💻 Running lint test 💻"
+            # - run: npm run lint
+            # Slack Notifications
+            - name: Slack notification in the main channel
+              if: always()
+              uses: rtCamp/action-slack-notify@v2
+              env:
+                SLACK_CHANNEL: github-actions-deployment
+                SLACK_COLOR: ${{ job.status }}
+                SLACK_TITLE: 'Build and lint test info :bell:'
+                SLACK_MESSAGE: |
+                  Repo: ${{ github.repository }}
+                  Test status: ${{ job.status }}
+                SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
