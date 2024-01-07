@@ -1,4 +1,4 @@
-# Python project for initial setup of a repository for the React projects  
+# Python project for initial setup of a repository for the projects  
 
 This project should automate the initial setup of a repository for some project  
 
